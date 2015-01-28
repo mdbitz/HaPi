@@ -1,4 +1,5 @@
 <?php
+
 /*
  * copyright (c) 2009 MDBitz - Matthew John Denton - mdbitz.com
  *
@@ -33,5 +34,6 @@
  *
  * @package com.mdbitz.harvest
  */
-class Harvest_Exception extends Exception
-{ }
+class Harvest_Exception extends Exception {
+    
+}

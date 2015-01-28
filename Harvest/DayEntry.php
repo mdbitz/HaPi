@@ -1,4 +1,5 @@
 <?php
+
 /*
  * copyright (c) 2009 MDBitz - Matthew John Denton - mdbitz.com
  *
@@ -53,7 +54,7 @@ class Harvest_DayEntry extends Harvest_Abstract {
      * @var string request
      */
     protected $_root = "request";
-	
+
     /**
      * @var boolean convert underscore
      */

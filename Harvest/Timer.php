@@ -1,4 +1,5 @@
 <?php
+
 /*
  * copyright (c) 2009 MDBitz - Matthew John Denton - mdbitz.com
  *
@@ -38,8 +39,8 @@
  *
  * @package com.mdbitz.harvest
  */
-class Harvest_Timer extends Harvest_Abstract
-{
+class Harvest_Timer extends Harvest_Abstract {
+
     /**
      * @var Harvest_DayEntry object of the timer
      */
@@ -56,18 +57,17 @@ class Harvest_Timer extends Harvest_Abstract
      * @param $mixed $property
      * @param mixed
      */
-    public function get( $property )
-    {
-        switch( $property ) {
+    public function get($property) {
+        switch ($property) {
             case "day_entry":
                 return $this->_dayEntry;
-            break;
+                break;
             case "hours_for_previously_running_timer":
                 return $this->_hoursForPrevious;
-            break;
+                break;
             default:
                 return null;
-            break;
+                break;
         }
     }
 
@@ -77,18 +77,17 @@ class Harvest_Timer extends Harvest_Abstract
      * @param $mixed $property
      * @return void
      */
-    public function set( $property, $value )
-    {
-        switch( $property ) {
+    public function set($property, $value) {
+        switch ($property) {
             case "day_entry":
                 $this->_dayEntry = $value;
-            break;
+                break;
             case "hours_for_previously_running_timer":
                 $this->_hoursForPrevious = $value;
-            break;
+                break;
             default:
                 return null;
-            break;
+                break;
         }
     }
 
@@ -98,19 +97,18 @@ class Harvest_Timer extends Harvest_Abstract
      * @param XMLNode $node        xml node to parse
      * @return void            
      */
-    public function parseXML( $node )
-    {    
-        foreach ( $node->childNodes as $item ) {
-            switch( $item->nodeName ) {
+    public function parseXML($node) {
+        foreach ($node->childNodes as $item) {
+            switch ($item->nodeName) {
                 case "day_entry":
                     $this->_dayEntry = new Harvest_DayEntry();
-                    $this->_dayEntry->parseXML( $node );
-                break;
+                    $this->_dayEntry->parseXML($node);
+                    break;
                 case "hours_for_previously_running_timer":
                     $this->_hoursForPrevious = $item->nodeValue;
-                break;
+                    break;
                 default:
-                break;
+                    break;
             }
         }
     }

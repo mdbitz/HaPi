@@ -1,4 +1,5 @@
 <?php
+
 /*
  * copyright (c) 2009 MDBitz - Matthew John Denton - mdbitz.com
  *
@@ -32,8 +33,7 @@
  *
  * @package com.mdbitz.harvest
  */
-class Harvest_TimeZone
-{
+class Harvest_TimeZone {
 
     /**
      *  Abu Dhabi

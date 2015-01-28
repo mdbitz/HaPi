@@ -1,4 +1,5 @@
 <?php
+
 /*
  * copyright (c) 2009 MDBitz - Matthew John Denton - mdbitz.com
  *
@@ -49,6 +50,6 @@ class Harvest_Client extends Harvest_Abstract {
     /**
      * @var string client
      */
-    protected $_root = "client";	
+    protected $_root = "client";
 
 }

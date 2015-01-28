@@ -1,4 +1,5 @@
 <?php
+
 /*
  * copyright (c) 2009 MDBitz - Matthew John Denton - mdbitz.com
  *
@@ -46,15 +47,15 @@
  * </code>
  *
  * @package com.mdbitz.harvest
- */ 
- class HarvestAPI{
-    
-	/**
+ */
+class HarvestAPI {
+
+    /**
      *  WAIT
      */
     const RETRY = "WAIT";
 
-	/**
+    /**
      *  FAIL
      */
     const FAIL = "FAIL";
@@ -68,32 +69,32 @@
      * @var string User Password
      */
     protected $_password;
-    
+
     /**
      * @var string Harvest Account Name
      */
     protected $_account;
-    
+
     /**
      * @var boolean is SSL enabled account?
      */
     protected $_ssl = true;
-    
+
     /**
      * @var string retry mode for over threshold
      */
     protected $_mode = "FAIL";
-    
+
     /**
      * @var string harvest root directory
      */
     protected static $_path;
 
-	/**
+    /**
      * @var array Header Associated Array
      */
     protected $_headers;
-    
+
     /**
      * set Harvest User Name
      *
@@ -105,11 +106,10 @@
      * @param string $user User name
      * @return void
      */
-    public function setUser( $user ) 
-    {
+    public function setUser($user) {
         $this->_user = $user;
     }
-    
+
     /**
      * set Harvest Password
      *
@@ -121,11 +121,10 @@
      * @param string $password User Password
      * @return void
      */
-    public function setPassword( $password ) 
-    {
+    public function setPassword($password) {
         $this->_password = $password;
     }
-    
+
     /**
      * set Harvest Account
      *
@@ -137,11 +136,10 @@
      * @param string $account Account Name
      * @return void
      */
-    public function setAccount( $account ) 
-    {
+    public function setAccount($account) {
         $this->_account = $account;
     }
-    
+
     /**
      * set SSL enabled
      * 
@@ -153,12 +151,11 @@
      * @param boolean $ssl ssl enabled
      * @return void
      */
-    public function setSSL( $ssl ) 
-    {
+    public function setSSL($ssl) {
         $this->_ssl = $ssl;
     }
-    
-	/**
+
+    /**
      * set retry mode
      * 
      * <code>
@@ -169,8 +166,7 @@
      * @param boolean $mode retry mode
      * @return void
      */
-    public function setRetryMode( $mode ) 
-    {
+    public function setRetryMode($mode) {
         $this->_mode = $mode;
     }
 
@@ -181,20 +177,19 @@
      * $api = new HarvestAPI();
      *
      * $result = $api->getThrottleStatus();
-	 * $throttle = $result->data;
+     * $throttle = $result->data;
      * </code>
      *
      * @return Harvest_Result
      */
-    public function getThrottleStatus()
-    {
+    public function getThrottleStatus() {
         $url = "account/rate_limit_status";
-        return $this->performGET( $url, false );
+        return $this->performGET($url, false);
     }
 
-    /*--------------------------------------------------------------*/
-    /*--------------------- Time Tracking API ----------------------*/
-    /*--------------------------------------------------------------*/
+    /* -------------------------------------------------------------- */
+    /* --------------------- Time Tracking API ---------------------- */
+    /* -------------------------------------------------------------- */
 
     /**
      * gets the activity of the requesting user for the day
@@ -215,13 +210,12 @@
      * @param int $year Year
      * @return Harvest_Result
      */
-    public function getDailyActivity( $day_of_year = null, $year = null ) 
-    {
+    public function getDailyActivity($day_of_year = null, $year = null) {
         $url = "daily/";
-        if( ! is_null( $day_of_year ) && ! is_null( $year ) ) {
+        if (!is_null($day_of_year) && !is_null($year)) {
             $url .= $day_of_year . "/" . $year;
         }
-        return $this->performGET( $url, false );
+        return $this->performGET($url, false);
     }
 
     /**
@@ -241,13 +235,12 @@
      * @param int $entry_id Entry Identifier
      * @return Harvest_Result
      */
-    public function getEntry( $entry_id ) 
-    {
+    public function getEntry($entry_id) {
         $url = "daily/show/" . $entry_id;
-        return $this->performGET( $url, false );
+        return $this->performGET($url, false);
     }
 
-	/**
+    /**
      * toggle a timer on/off
      *
      * <code>
@@ -264,10 +257,9 @@
      * @param $entry_id    Day Entry Identifier
      * @return Harvest_Result
      */
-    public function toggleTimer( $entry_id ) 
-    {
+    public function toggleTimer($entry_id) {
         $url = "daily/timer/" . $entry_id;
-        return $this->performGET( $url, false );
+        return $this->performGET($url, false);
     }
 
     /**
@@ -292,10 +284,9 @@
      * @param $entry    Day Entry
      * @return Harvest_Result
      */
-    public function createEntry( $entry ) 
-    {
+    public function createEntry($entry) {
         $url = "daily/add";
-        return $this->performPOST( $url, $entry->toXML(), false );
+        return $this->performPOST($url, $entry->toXML(), false);
     }
 
     /**
@@ -319,11 +310,10 @@
      * @param $entry    Day Entry
      * @return Harvest_Result
      */
-    public function startNewTimer( $entry ) 
-    {
-        $entry->set( "hours", " " );
+    public function startNewTimer($entry) {
+        $entry->set("hours", " ");
         $url = "daily/add";
-        return $this->performPOST( $url, $entry->toXML(), false );
+        return $this->performPOST($url, $entry->toXML(), false);
     }
 
     /**
@@ -343,10 +333,9 @@
      * @param $entry_id    Day Entry Identifier
      * @return Harvest_Result
      */
-    public function deleteEntry( $entry_id ) 
-    {
+    public function deleteEntry($entry_id) {
         $url = "daily/delete/" . $entry_id;
-        return $this->performDELETE( $url);
+        return $this->performDELETE($url);
     }
 
     /**
@@ -372,15 +361,14 @@
      * @param $entry    Day Entry
      * @return Harvest_Result
      */
-    public function updateEntry( $entry ) 
-    {
+    public function updateEntry($entry) {
         $url = "daily/update/$entry->id";
-        return $this->performPOST( $url, $entry->toXML() );
+        return $this->performPOST($url, $entry->toXML());
     }
 
-    /*--------------------------------------------------------------*/
-    /*------------------------- Client API -------------------------*/
-    /*--------------------------------------------------------------*/
+    /* -------------------------------------------------------------- */
+    /* ------------------------- Client API ------------------------- */
+    /* -------------------------------------------------------------- */
 
     /**
      * get all clients
@@ -397,10 +385,9 @@
      * @param mixed $updated_since  DateTime
      * @return Harvest_Result
      */
-    public function getClients( $updated_since = null) 
-    {
-        $url = "clients" . $this->appendUpdatedSinceParam( $updated_since );
-        return $this->performGET( $url, true );
+    public function getClients($updated_since = null) {
+        $url = "clients" . $this->appendUpdatedSinceParam($updated_since);
+        return $this->performGET($url, true);
     }
 
     /**
@@ -419,10 +406,9 @@
      * @param int $client_id  Client Identifier
      * @return Harvest_Result
      */
-    public function getClient( $client_id ) 
-    {
+    public function getClient($client_id) {
         $url = "clients/$client_id";
-        return $this->performGET( $url, false );
+        return $this->performGET($url, false);
     }
 
     /**
@@ -445,10 +431,9 @@
      * @param Harvest_Client $client Client
      * @return Harvest_Result
      */
-    public function createClient( Harvest_Client $client ) 
-    {
+    public function createClient(Harvest_Client $client) {
         $url = "clients";
-        return $this->performPOST( $url, $client->toXML() );
+        return $this->performPOST($url, $client->toXML());
     }
 
     /**
@@ -459,10 +444,10 @@
      * $client->set( "id", 11111 ); 
      * client->set( "name", "Company LLC" ); 
      * $client->set( "details", "New Company Details" );
-	 *
+     *
      * $api = new HarvestAPI(); 
      * 
-	 * $result = $api->updateClient( $client ); 
+     * $result = $api->updateClient( $client ); 
      * if( $result->isSuccess() ) { 
      *     // additional logic 
      * } 
@@ -471,10 +456,9 @@
      * @param Harvest_Client $client Client
      * @return Harvest_Result
      */
-    public function updateClient( Harvest_Client $client ) 
-    {
+    public function updateClient(Harvest_Client $client) {
         $url = "clients/$client->id";
-        return $this->performPUT( $url, $client->toXML() );
+        return $this->performPUT($url, $client->toXML());
     }
 
     /**
@@ -489,13 +473,12 @@
      * } 
      * </code>
      *
-     * @param $int client_id Client Identifier
+     * @param int $client_id Client Identifier
      * @return Harvest_Result
      */
-    public function toggleClient( $client_id ) 
-    {
+    public function toggleClient($client_id) {
         $url = "clients/$client_id/toggle";
-        return $this->performPUT( $url, "" );
+        return $this->performPUT($url, "");
     }
 
     /**
@@ -513,15 +496,14 @@
      * @param int $client_id Client Identifier
      * @return Harvest_Result
      */
-    public function deleteClient( $client_id ) 
-    {
+    public function deleteClient($client_id) {
         $url = "clients/$client_id";
-        return $this->performDELETE( $url );
+        return $this->performDELETE($url);
     }
 
-    /*--------------------------------------------------------------*/
-    /*---------------------- Client Contacts API -------------------*/
-    /*--------------------------------------------------------------*/
+    /* -------------------------------------------------------------- */
+    /* ---------------------- Client Contacts API ------------------- */
+    /* -------------------------------------------------------------- */
 
     /**
      * get all contacts for an account
@@ -534,14 +516,13 @@
      * }
      * </code>
      * 
-	 * @param mixed $updated_since DateTime
+     * @param mixed $updated_since DateTime
      * @return Harvest_Result
      */
     public function getContacts($updated_since = null) {
 
-        $url = "contacts" . $this->appendUpdatedSinceParam( $updated_since );
-        return $this->performGET( $url, true );
-
+        $url = "contacts" . $this->appendUpdatedSinceParam($updated_since);
+        return $this->performGET($url, true);
     }
 
     /**
@@ -559,10 +540,9 @@
      * @param int $client_id Client Identifier
      * @return Harvest_Result
      */
-    public function getClientContacts( $client_id ) 
-    {
+    public function getClientContacts($client_id) {
         $url = "clients/$client_id/contacts";
-        return $this->performGET( $url, true );
+        return $this->performGET($url, true);
     }
 
     /**
@@ -580,10 +560,9 @@
      * @param int $contact_id Contact Identifier
      * @return Harvest_Result
      */
-    public function getContact( $contact_id ) 
-    {
+    public function getContact($contact_id) {
         $url = "contacts/$contact_id";
-        return $this->performGET( $url, false );
+        return $this->performGET($url, false);
     }
 
     /**
@@ -608,9 +587,9 @@
      * @param Harvest_Contact $contact Contact
      * @return Harvest_Result
      */
-    public function createContact( Harvest_Contact $contact ) {
+    public function createContact(Harvest_Contact $contact) {
         $url = "contacts";
-        return $this->performPOST( $url, $contact->toXML() );
+        return $this->performPOST($url, $contact->toXML());
     }
 
     /**
@@ -633,10 +612,9 @@
      * @param Harvest_Contact $contact Contact
      * @return Harvest_Result
      */
-    public function updateContact( Harvest_Contact $contact ) 
-    {
+    public function updateContact(Harvest_Contact $contact) {
         $url = "contacts/$contact->id";
-        return $this->performPUT( $url, $contact->toXML() );
+        return $this->performPUT($url, $contact->toXML());
     }
 
     /**
@@ -652,18 +630,17 @@
      * } 
      * </code>
      * 
-     * @param int $contact_Id Contact Identifier
+     * @param int $contact_id Contact Identifier
      * @return Harvest_Result
      */
-    public function deleteContact( $contact_id ) 
-    {
+    public function deleteContact($contact_id) {
         $url = "contacts/$contact_id";
-        return $this->performDELETE( $url );
+        return $this->performDELETE($url);
     }
-  
-    /*--------------------------------------------------------------*/
-    /*----------------------- Projects API -------------------------*/
-    /*--------------------------------------------------------------*/
+
+    /* -------------------------------------------------------------- */
+    /* ----------------------- Projects API ------------------------- */
+    /* -------------------------------------------------------------- */
 
     /**
      * get all projects
@@ -677,16 +654,15 @@
      * }
      * </code>
      * 
-	 * @param mixed $updated_since DateTime
+     * @param mixed $updated_since DateTime
      * @return Harvest_Result
      */
-    public function getProjects( $updated_since = null ) 
-    {
-        $url = "projects" . $this->appendUpdatedSinceParam( $updated_since );
-        return $this->performGET( $url, true );
+    public function getProjects($updated_since = null) {
+        $url = "projects" . $this->appendUpdatedSinceParam($updated_since);
+        return $this->performGET($url, true);
     }
-	
-	/**
+
+    /**
      * get all projects of a client
      *
      * <code>
@@ -701,10 +677,9 @@
      * @param int $client_id Client Identifier
      * @return Harvest_Result
      */
-    public function getClientProjects( $client_id) 
-    {
+    public function getClientProjects($client_id) {
         $url = "projects?client=$client_id";
-        return $this->performGET( $url, true );
+        return $this->performGET($url, true);
     }
 
     /**
@@ -723,10 +698,9 @@
      * @param int $project_id Project Identifier
      * @return Harvest_Result
      */
-    public function getProject( $project_id ) 
-    {
+    public function getProject($project_id) {
         $url = "projects/$project_id";
-        return $this->performGET( $url, false );
+        return $this->performGET($url, false);
     }
 
     /**
@@ -749,10 +723,9 @@
      * @param Harvest_Project $project Project
      * @return Harvest_Result
      */
-    public function createProject( Harvest_Project $project ) 
-    {
+    public function createProject(Harvest_Project $project) {
         $url = "projects";
-        return $this->performPOST( $url, $project->toXML() );
+        return $this->performPOST($url, $project->toXML());
     }
 
     /**
@@ -775,10 +748,9 @@
      * @param Harvest_Project $project Project
      * @return Harvest_Result
      */
-    public function updateProject( Harvest_Project $project ) 
-    {
+    public function updateProject(Harvest_Project $project) {
         $url = "projects/$project->id";
-        return $this->performPUT( $url, $project->toXML() );
+        return $this->performPUT($url, $project->toXML());
     }
 
     /**
@@ -797,10 +769,9 @@
      * @param int $project_id Project Identifier
      * @return Harvest_Result
      */
-    public function toggleProject( $project_id ) 
-    {
+    public function toggleProject($project_id) {
         $url = "projects/$project_id/toggle";
-        return $this->performPUT( $url, "" );
+        return $this->performPUT($url, "");
     }
 
     /**
@@ -819,15 +790,14 @@
      * @param int $project_id Project Identifier
      * @return Harvest_Result
      */
-    public function deleteProject( $project_id ) 
-    {
+    public function deleteProject($project_id) {
         $url = "projects/$project_id";
-        return $this->performDELETE( $url );
+        return $this->performDELETE($url);
     }
 
-    /*--------------------------------------------------------------*/
-    /*-------------------------- Tasks API -------------------------*/
-    /*--------------------------------------------------------------*/
+    /* -------------------------------------------------------------- */
+    /* -------------------------- Tasks API ------------------------- */
+    /* -------------------------------------------------------------- */
 
     /**
      * get all tasks
@@ -843,10 +813,9 @@
      * 
      * @return Harvest_Result
      */
-    public function getTasks() 
-    {
+    public function getTasks() {
         $url = "tasks";
-        return $this->performGET( $url, true );
+        return $this->performGET($url, true);
     }
 
     /**
@@ -865,10 +834,9 @@
      * @param int $task_id Task Identifier
      * @return Harvest_Result
      */
-    public function getTask( $task_id ) 
-    {
+    public function getTask($task_id) {
         $url = "tasks/$task_id";
-        return $this->performGET( $url, false );
+        return $this->performGET($url, false);
     }
 
     /**
@@ -892,10 +860,9 @@
      * @param Harvest_Task $task Task
      * @return Harvest_Result
      */
-    public function createTask( Harvest_Task $task ) 
-    {
+    public function createTask(Harvest_Task $task) {
         $url = "tasks";
-        return $this->performPOST( $url, $task->toXML() );
+        return $this->performPOST($url, $task->toXML());
     }
 
     /**
@@ -918,10 +885,9 @@
      * @param Harvest_Task $task Task
      * @return Harvest_Result
      */
-    public function updateTask( Harvest_Task $task ) 
-    {
+    public function updateTask(Harvest_Task $task) {
         $url = "tasks/$task->id";
-        return $this->performPUT( $url, $task->toXML() );
+        return $this->performPUT($url, $task->toXML());
     }
 
     /**
@@ -940,15 +906,14 @@
      * @param int $task_id Task Identifier
      * @return Harvest_Result
      */
-    public function deleteTask( $task_id ) 
-    {
+    public function deleteTask($task_id) {
         $url = "tasks/$task_id";
-        return $this->performDELETE( $url );
+        return $this->performDELETE($url);
     }
 
-    /*--------------------------------------------------------------*/
-    /*------------------------- People API -------------------------*/
-    /*--------------------------------------------------------------*/
+    /* -------------------------------------------------------------- */
+    /* ------------------------- People API ------------------------- */
+    /* -------------------------------------------------------------- */
 
     /**
      * get all users
@@ -964,10 +929,9 @@
      * 
      * @return Harvest_Result
      */
-    public function getUsers() 
-    {
+    public function getUsers() {
         $url = "people";
-        return $this->performGET( $url, true );
+        return $this->performGET($url, true);
     }
 
     /**
@@ -986,10 +950,9 @@
      * @param int $user_id  User Identifier
      * @return Harvest_Result
      */
-    public function getUser( $user_id ) 
-    {
+    public function getUser($user_id) {
         $url = "people/$user_id";
-        return $this->performGET( $url, false );
+        return $this->performGET($url, false);
     }
 
     /**
@@ -1018,10 +981,9 @@
      * @param Harvest_User $user User
      * @return Harvest_Result
      */
-    public function createUser( Harvest_User $user ) 
-    {
+    public function createUser(Harvest_User $user) {
         $url = "people";
-        return $this->performPOST( $url, $user->toXML() );
+        return $this->performPOST($url, $user->toXML());
     }
 
     /**
@@ -1044,10 +1006,9 @@
      * @param Harvest_User $user User
      * @return Harvest_Result
      */
-    public function updateUser( Harvest_User $user ) 
-    {
+    public function updateUser(Harvest_User $user) {
         $url = "people/$user->id";
-        return $this->performPUT( $url, $user->toXML() );
+        return $this->performPUT($url, $user->toXML());
     }
 
     /**
@@ -1066,10 +1027,9 @@
      * @param int $user_id User Identifier
      * @return Harvest_Result
      */
-    public function toggleUser( $user_id ) 
-    {
+    public function toggleUser($user_id) {
         $url = "people/$user_id/toggle";
-        return $this->performPUT( $url, "" );
+        return $this->performPUT($url, "");
     }
 
     /**
@@ -1088,10 +1048,9 @@
      * @param int $user_id User Identifier
      * @return Harvest_Result
      */
-    public function resetUserPassword( $user_id ) 
-    {
+    public function resetUserPassword($user_id) {
         $url = "people/$user_id/reset_password";
-        return $this->performPUT( $url, "" );
+        return $this->performPUT($url, "");
     }
 
     /**
@@ -1110,15 +1069,14 @@
      * @param int $user_id User Identifier
      * @return Harvest_Result
      */
-    public function deleteUser( $user_id ) 
-    {
+    public function deleteUser($user_id) {
         $url = "people/" . $user_id;
-        return $this->performDELETE( $url );
+        return $this->performDELETE($url);
     }
 
-    /*--------------------------------------------------------------*/
-    /*------------------------ Expenses API ------------------------*/
-    /*--------------------------------------------------------------*/
+    /* -------------------------------------------------------------- */
+    /* ------------------------ Expenses API ------------------------ */
+    /* -------------------------------------------------------------- */
 
     /**
      * get all expense categories
@@ -1134,10 +1092,9 @@
      * 
      * @return Harvest_Result
      */
-    public function getExpenseCategories() 
-    {
+    public function getExpenseCategories() {
         $url = "expense_categories";
-        return $this->performGET( $url, true );
+        return $this->performGET($url, true);
     }
 
     /**
@@ -1161,10 +1118,9 @@
      * @param Harvest_ExpenseCategory $expenseCategory Expense Category
      * @return Harvest_Result
      */
-    public function createExpenseCategory( Harvest_ExpenseCategory $expenseCategory ) 
-    {
+    public function createExpenseCategory(Harvest_ExpenseCategory $expenseCategory) {
         $url = "expense_categories";
-        return $this->performPOST( $url, $expenseCategory->toXML() );
+        return $this->performPOST($url, $expenseCategory->toXML());
     }
 
     /**
@@ -1186,10 +1142,9 @@
      * @param Harvest_ExpenseCategory $expenseCategory Expense Category
      * @return Harvest_Result
      */
-    public function updateExpenseCategory( Harvest_ExpenseCategory $expenseCategory ) 
-    {
+    public function updateExpenseCategory(Harvest_ExpenseCategory $expenseCategory) {
         $url = "expesnse_categories/$expenseCategory->id";
-        return $this->performPUT( $url, $expenseCategory->toXML() );
+        return $this->performPUT($url, $expenseCategory->toXML());
     }
 
     /**
@@ -1208,15 +1163,14 @@
      * @param int $expense_category_id Expense Category Identifier
      * @return Harvest_Result
      */
-    public function deleteExpenseCategory( $expense_category_id ) 
-    {
+    public function deleteExpenseCategory($expense_category_id) {
         $url = "expense_categories/$expense_category_id";
-        return $this->performDELETE( $url );
+        return $this->performDELETE($url);
     }
 
-    /*--------------------------------------------------------------*/
-    /*-------------------- Expenses Tracking API -------------------*/
-    /*--------------------------------------------------------------*/
+    /* -------------------------------------------------------------- */
+    /* -------------------- Expenses Tracking API ------------------- */
+    /* -------------------------------------------------------------- */
 
     /**
      * get expense
@@ -1234,10 +1188,9 @@
      * @param int $expense_id Expense Identifier
      * @return Harvest_Result
      */
-    public function getExpense( $expense_id) 
-    {
+    public function getExpense($expense_id) {
         $url = "expenses/$expense_id";
-        return $this->performGET( $url, false );
+        return $this->performGET($url, false);
     }
 
     /**
@@ -1278,10 +1231,9 @@
      * @param Harvest_Expense $expense Expense
      * @return Harvest_Result
      */
-    public function createExpense( Harvest_Expense $expense ) 
-    {
+    public function createExpense(Harvest_Expense $expense) {
         $url = "expenses";
-        return $this->performPOST( $url, $expense->toXML() );
+        return $this->performPOST($url, $expense->toXML());
     }
 
     /**
@@ -1318,10 +1270,9 @@
      * @param Harvest_Expense $expense Expense
      * @return Harvest_Result
      */
-    public function updateExpense( Harvest_Expense $expense ) 
-    {
+    public function updateExpense(Harvest_Expense $expense) {
         $url = "expesnses/$expense->id";
-        return $this->performPUT( $url, $obj->toXML() );
+        return $this->performPUT($url, $expense->toXML());
     }
 
     /**
@@ -1340,13 +1291,12 @@
      * @param int $expense_id Expense Identifier
      * @return Harvest_Result
      */
-    public function deleteExpense( $expense_id ) 
-    {
+    public function deleteExpense($expense_id) {
         $url = "expenses/" . $expense_id;
-        return $this->performDELETE( $url );
+        return $this->performDELETE($url);
     }
 
-	/**
+    /**
      * Get a receipt image associated with an expense
      *
      * <code>
@@ -1363,10 +1313,9 @@
      * @param $expense_id Expense Identifier
      * @return Harvest_Result
      */
-    public function getReceipt( $expense_id ) 
-    {
+    public function getReceipt($expense_id) {
         $url = "expenses/$expense_id/receipt";
-        return $this->performGET( $url, "raw");
+        return $this->performGET($url, "raw");
     }
 
     /**
@@ -1388,17 +1337,16 @@
      * @param $image_url Image URL
      * @return Harvest_Result
      */
-    public function attachReceipt( $expense_id, $image_url ) 
-    {
-        $url = "expenses/$expense_id/$receipt";
+    public function attachReceipt($expense_id, $image_url) {
+        $url = "expenses/$expense_id/receipt"; //TODO Verify 
         $data = array();
         $data["expense[receipt]"] = "@$image_url";
-        return $this->performMultiPart( $url, $data);
+        return $this->performMultiPart($url, $data);
     }
 
-    /*--------------------------------------------------------------*/
-    /*--------------------- User Assignment API --------------------*/
-    /*--------------------------------------------------------------*/
+    /* -------------------------------------------------------------- */
+    /* --------------------- User Assignment API -------------------- */
+    /* -------------------------------------------------------------- */
 
     /**
      * get all user assignments to a given project
@@ -1416,10 +1364,9 @@
      * @param int $project_id Project Identifier
      * @return Harvest_Result
      */
-    public function getProjectUserAssignments( $project_id ) 
-    {
+    public function getProjectUserAssignments($project_id) {
         $url = "projects/$project_id/user_assignments";
-        return $this->performGET( $url, true );
+        return $this->performGET($url, true);
     }
 
     /**
@@ -1440,10 +1387,9 @@
      * @param int $user_assignment_id User Assignment Identifier
      * @return Harvest_UserAssignment
      */
-    public function getProjectUserAssignment( $project_id, $user_assignment_id ) 
-    {
+    public function getProjectUserAssignment($project_id, $user_assignment_id) {
         $url = "projects/$project_id/user_assignments/$user_assignment_id";
-        return $this->performGET( $url, false );
+        return $this->performGET($url, false);
     }
 
     /**
@@ -1466,10 +1412,9 @@
      * @param int $user_id User Identifier
      * @return Harvest_Result
      */
-    public function assignUserToProject( $project_id, $user_id ) 
-    {
+    public function assignUserToProject($project_id, $user_id) {
         $url = "projects/$project_id/user_assignments";
-        return $this->performPOST( $url, "<user><id>$user_id</id></user>" );
+        return $this->performPOST($url, "<user><id>$user_id</id></user>");
     }
 
     /**
@@ -1491,10 +1436,9 @@
      * @param int $user_assignment_id User Assignment Identifier
      * @return Harvest_Result
      */
-    public function removeUserFromProject( $project_id, $user_assignment_id ) 
-    {
+    public function removeUserFromProject($project_id, $user_assignment_id) {
         $url = "projects/$project_id/user_assignments/$user_assignment_id";
-        return $this->performDELETE( $url );
+        return $this->performDELETE($url);
     }
 
     /**
@@ -1519,15 +1463,14 @@
      * @param Harvest_UserAssignment $userAssignment UserAssignment
      * @return Harvest_Result
      */
-    public function updateProjectUserAssignment( Harvest_UserAssignment $userAssignment ) 
-    {
+    public function updateProjectUserAssignment(Harvest_UserAssignment $userAssignment) {
         $url = "projects/" . $userAssignment->get("project-id") . "/user_assignments/" . $userAssignment->get("id");
-        return $this->performPUT( $url, $userAssignment->toXML() );
+        return $this->performPUT($url, $userAssignment->toXML());
     }
 
-    /*--------------------------------------------------------------*/
-    /*--------------------- Task Assignment API --------------------*/
-    /*--------------------------------------------------------------*/
+    /* -------------------------------------------------------------- */
+    /* --------------------- Task Assignment API -------------------- */
+    /* -------------------------------------------------------------- */
 
     /**
      * get all task assignments to a given project
@@ -1545,10 +1488,9 @@
      * @param int $project_id Project Identifier
      * @return Harvest_Result
      */
-    public function getProjectTaskAssignments( $project_id ) 
-    {
+    public function getProjectTaskAssignments($project_id) {
         $url = "projects/$project_id/task_assignments";
-        return $this->performGET( $url, true );
+        return $this->performGET($url, true);
     }
 
     /**
@@ -1570,10 +1512,9 @@
      * @param int $task_assignment_id Task Assignment Identifier
      * @return Harvest_Result
      */
-    public function getProjectTaskAssignment( $project_id, $task_assignment_id ) 
-    {
+    public function getProjectTaskAssignment($project_id, $task_assignment_id) {
         $url = "projects/$project_id/task_assignments/$task_assignment_id";
-        return $this->performGET( $url, false );
+        return $this->performGET($url, false);
     }
 
     /**
@@ -1596,10 +1537,9 @@
      * @param int $task_id Task Identifier
      * @return Harvest_Result
      */
-    public function assignTaskToProject( $project_id, $task_id ) 
-    {
+    public function assignTaskToProject($project_id, $task_id) {
         $url = "projects/$project_id/task_assignments";
-        return $this->performPOST( $url, "<task><id>$task_id</id></task>" );
+        return $this->performPOST($url, "<task><id>$task_id</id></task>");
     }
 
     /**
@@ -1623,10 +1563,9 @@
      * @param Harvest_Task $task Task
      * @return Harvest_Result
      */
-    public function createProjectTaskAssignment( $project_id, $task ) 
-    {
+    public function createProjectTaskAssignment($project_id, $task) {
         $url = "projects/$project_id/task_assignments/add_with_create_new_task";
-        return $this->performPOST( $url, $task->toXML() );
+        return $this->performPOST($url, $task->toXML());
     }
 
     /**
@@ -1648,10 +1587,9 @@
      * @param int $task_assignment_id Task Assignment Identifier
      * @return Harvest_Result
      */
-    public function deleteProjectTaskAssignment( $project_id, $task_assignment_id ) 
-    {
+    public function deleteProjectTaskAssignment($project_id, $task_assignment_id) {
         $url = "projects/$project_id/task_assignments/$task_assignment_id";
-        return $this->performDELETE( $url );
+        return $this->performDELETE($url);
     }
 
     /**
@@ -1675,15 +1613,14 @@
      * @param Harvest_TaskAssignment $taskAssignment Task Assignment
      * @return Harvest_Result
      */
-    public function updateProjectTaskAssignment( Harvest_TaskAssignment $taskAssignment ) 
-    {
+    public function updateProjectTaskAssignment(Harvest_TaskAssignment $taskAssignment) {
         $url = "projects/" . $taskAssignment->get("project-id") . "/task_assignments/" . $taskAssignment->get("id");
-        return $this->performPUT( $url, $taskAssignment->toXML() );
+        return $this->performPUT($url, $taskAssignment->toXML());
     }
 
-    /*--------------------------------------------------------------*/
-    /*------------------------- Reports API ------------------------*/
-    /*--------------------------------------------------------------*/
+    /* -------------------------------------------------------------- */
+    /* ------------------------- Reports API ------------------------ */
+    /* -------------------------------------------------------------- */
 
     /**
      * get all project entries for given time range for a particular user if specified
@@ -1706,13 +1643,12 @@
      * @param int $user_id User identifier optional
      * @return Harvest_Result
      */
-    public function getProjectEntries( $project_id, Harvest_Range $range, $user_id = null ) 
-    {
+    public function getProjectEntries($project_id, Harvest_Range $range, $user_id = null) {
         $url = "projects/" . $project_id . "/entries?from=" . $range->from() . '&to=' . $range->to();
-        if( ! is_null( $user_id ) ) {
+        if (!is_null($user_id)) {
             $url .= "&user_id=" . $user_id;
         }
-        return $this->performGET( $url, true );
+        return $this->performGET($url, true);
     }
 
     /**
@@ -1736,13 +1672,12 @@
      * @param int $project_id Project identifier optional
      * @return Harvest_Result
      */
-    public function getUserEntries( $user_id, Harvest_Range $range, $project_id = null ) 
-    {
+    public function getUserEntries($user_id, Harvest_Range $range, $project_id = null) {
         $url = "people/" . $user_id . "/entries?from=" . $range->from() . '&to=' . $range->to();
-        if( ! is_null( $project_id ) ) {
+        if (!is_null($project_id)) {
             $url .= "&project_id=" . $project_id;
         }
-        return $this->performGET( $url, true );
+        return $this->performGET($url, true);
     }
 
     /**
@@ -1764,15 +1699,14 @@
      * @param Harvest_Range $range Time Range
      * @return Harvest_Result
      */
-    public function getUserExpenses( $user_id, Harvest_Range $range ) 
-    {
+    public function getUserExpenses($user_id, Harvest_Range $range) {
         $url = "people/" . $user_id . "/expenses?from=" . $range->from() . '&to=' . $range->to();
-        return $this->performGET( $url, true );
+        return $this->performGET($url, true);
     }
-    
-    /*--------------------------------------------------------------*/
-    /*------------------------ Invoices API ------------------------*/
-    /*--------------------------------------------------------------*/
+
+    /* -------------------------------------------------------------- */
+    /* ------------------------ Invoices API ------------------------ */
+    /* -------------------------------------------------------------- */
 
     /**
      * get all invoices
@@ -1792,13 +1726,12 @@
      * @param Harvest_Invoice_Filter $filter Filter Options
      * @return Harvest_Result
      */
-    public function getInvoices( Harvest_Invoice_Filter $filter = null) 
-    {
+    public function getInvoices(Harvest_Invoice_Filter $filter = null) {
         $url = "invoices";
-        if( ! is_null( $filter ) ) {
+        if (!is_null($filter)) {
             $url .= $filter->toURL();
         }
-        return $this->performGET( $url, true );
+        return $this->performGET($url, true);
     }
 
     /**
@@ -1818,10 +1751,9 @@
      * @param int $invoice_id Invoice Identifier
      * @return Harvest_Result
      */
-    public function getInvoice( $invoice_id ) 
-    {
+    public function getInvoice($invoice_id) {
         $url = "invoices/" . $invoice_id;
-        return $this->performGET( $url, false );
+        return $this->performGET($url, false);
     }
 
     /**
@@ -1845,10 +1777,9 @@
      * @param Harvest_Invoice $invoice Invoice
      * @return Harvest_Result
      */
-    public function createInvoice( Harvest_Invoice $invoice ) 
-    {
+    public function createInvoice(Harvest_Invoice $invoice) {
         $url = "invoices";
-        return $this->performPOST( $url, $invoice->toXML() );
+        return $this->performPOST($url, $invoice->toXML());
     }
 
     /**
@@ -1870,10 +1801,9 @@
      * @param Harvest_Invoice $invoice Invoice
      * @return Harvest_Result
      */
-    public function updateInvoice( Harvest_Invoice $invoice ) 
-    {
+    public function updateInvoice(Harvest_Invoice $invoice) {
         $url = "invoices/" . $invoice->get("id");
-        return $this->performPUT( $url, $invoice->toXML() );
+        return $this->performPUT($url, $invoice->toXML());
     }
 
     /**
@@ -1893,10 +1823,9 @@
      * @param int $invoice_id Invoice Identifier
      * @return Harvest_Result
      */
-    public function deleteInvoice( $invoice_id ) 
-    {
+    public function deleteInvoice($invoice_id) {
         $url = "invoices/" . $invoice_id;
-        return $this->performDELETE( $url );
+        return $this->performDELETE($url);
     }
 
     /**
@@ -1916,10 +1845,9 @@
      * @param int $invoice_id Invoice Identifier
      * @return Harvest_Result
      */
-    public function closeInvoice( $invoice_id ) 
-    {
+    public function closeInvoice($invoice_id) {
         $url = "invoices/$invoice_id/mark_as_closed";
-        return $this->performPUT( $url );
+        return $this->performPUT($url);
     }
 
     /**
@@ -1939,14 +1867,13 @@
      * @param int $invoice_id Invoice Identifier
      * @return Harvest_Result
      */
-    public function markOffInvoice( $invoice_id ) 
-    {
-        return $this->closeInvoice( $invoice_id );
+    public function markOffInvoice($invoice_id) {
+        return $this->closeInvoice($invoice_id);
     }
 
-    /*--------------------------------------------------------------*/
-    /*-------------------- Invoice Messages API --------------------*/
-    /*--------------------------------------------------------------*/
+    /* -------------------------------------------------------------- */
+    /* -------------------- Invoice Messages API -------------------- */
+    /* -------------------------------------------------------------- */
 
     /**
      * get all messages sent for an invoice
@@ -1965,10 +1892,9 @@
      * @param int $invoice_id Invoice Identifier
      * @return Harvest_Result
      */
-    public function getInvoiceMessages( $invoice_id ) 
-    {
+    public function getInvoiceMessages($invoice_id) {
         $url = "invoices/" . $invoice_id . "/messages";
-        return $this->performGET( $url, true );
+        return $this->performGET($url, true);
     }
 
     /**
@@ -1990,10 +1916,9 @@
      * @param int $message_id Message Identifier
      * @return Harvest_Result
      */
-    public function getInvoiceMessage( $invoice_id, $message_id ) 
-    {
+    public function getInvoiceMessage($invoice_id, $message_id) {
         $url = "invoices/" . $invoice_id . "/messages/" . $message_id;
-        return $this->performGET( $url, false );
+        return $this->performGET($url, false);
     }
 
     /**
@@ -2019,10 +1944,9 @@
      * @param Harvest_InvoiceMessage $message Invoice Message
      * @return Harvest_Result
      */
-    public function sendInvoiceMessage( $invoice_id, Harvest_InvoiceMessage $message ) 
-    {
+    public function sendInvoiceMessage($invoice_id, Harvest_InvoiceMessage $message) {
         $url = "invoices/$invoice_id/messages";
-        return $this->performPOST( $url, $message->toXML() );
+        return $this->performPOST($url, $message->toXML());
     }
 
     /**
@@ -2044,10 +1968,9 @@
      * @param int $message_id Invoice Message Identifier
      * @return Harvest_Result
      */
-    public function deleteInvoiceMessage( $invoice_id, $message_id ) 
-    {
-        $url = "invoices/$inovice_id/messages/$message_id";
-        return $this->performDELETE( $url );
+    public function deleteInvoiceMessage($invoice_id, $message_id) {
+        $url = "invoices/$invoice_id/messages/$message_id";
+        return $this->performDELETE($url);
     }
 
     /**
@@ -2072,10 +1995,9 @@
      * @param Harvest_InvoiceMessage $message Invoice Message
      * @return Harvest_Result
      */
-    public function createSentInvoiceMessage( $invoice_id, Harvest_InvoiceMessage $message ) 
-    {
+    public function createSentInvoiceMessage($invoice_id, Harvest_InvoiceMessage $message) {
         $url = "invoices/$invoice_id/messages/mark_as_sent";
-        return $this->performPOST( $url, $message->toXML() );
+        return $this->performPOST($url, $message->toXML());
     }
 
     /**
@@ -2100,10 +2022,9 @@
      * @param Harvest_InvoiceMessage $message Invoice Message
      * @return Harvest_Result
      */
-    public function createClosedInvoiceMessage( $invoice_id, Harvest_InvoiceMessage $message ) 
-    {
+    public function createClosedInvoiceMessage($invoice_id, Harvest_InvoiceMessage $message) {
         $url = "invoices/$invoice_id/messages/mark_as_closed";
-        return $this->performPOST( $url, $message->toXML() );
+        return $this->performPOST($url, $message->toXML());
     }
 
     /**
@@ -2128,12 +2049,11 @@
      * @param Harvest_InvoiceMessage $message Invoice Message
      * @return Harvest_Result
      */
-    public function createReOpenInvoiceMessage( $invoice_id, Harvest_InvoiceMessage $message ) 
-    {
+    public function createReOpenInvoiceMessage($invoice_id, Harvest_InvoiceMessage $message) {
         $url = "invoices/$invoice_id/messages/re_open";
-        return $this->performPOST( $url, $message->toXML() );
+        return $this->performPOST($url, $message->toXML());
     }
-	
+
     /**
      * create mark-as-draft Invoice Message
      *
@@ -2156,15 +2076,14 @@
      * @param Harvest_InvoiceMessage $message Invoice Message
      * @return Harvest_Result
      */
-    public function createMarkAsDraftInvoiceMessage( $invoice_id, Harvest_InvoiceMessage $message ) 
-    {
+    public function createMarkAsDraftInvoiceMessage($invoice_id, Harvest_InvoiceMessage $message) {
         $url = "invoices/$invoice_id/messages/mark_as_draft";
-        return $this->performPOST( $url, $message->toXML() );
+        return $this->performPOST($url, $message->toXML());
     }
 
-    /*--------------------------------------------------------------*/
-    /*-------------------- Invoice Payments API --------------------*/
-    /*--------------------------------------------------------------*/
+    /* -------------------------------------------------------------- */
+    /* -------------------- Invoice Payments API -------------------- */
+    /* -------------------------------------------------------------- */
 
     /**
      * get all recorded payments for an invoice
@@ -2172,7 +2091,7 @@
      * <code>
      * $api = new HarvestAPI();
      * $invoice_id = 1111;
-	 * 
+     * 
      * $result = $api->getInvoicePayments( $invoice_id );
      * if( $result->isSuccess() ) {
      *     $invoicePayments = $result->data;
@@ -2182,10 +2101,9 @@
      * @param int $invoice_id Invoice Identifier
      * @return Harvest_Result
      */
-    public function getInvoicePayments( $invoice_id ) 
-    {
+    public function getInvoicePayments($invoice_id) {
         $url = "invoices/$invoice_id/payments";
-        return $this->performGET( $url, true );
+        return $this->performGET($url, true);
     }
 
     /**
@@ -2207,10 +2125,9 @@
      * @param int $payment_id Payment Identifier
      * @return Harvest_Result
      */
-    public function getInvoicePayment( $invoice_id, $payment_id ) 
-    {
+    public function getInvoicePayment($invoice_id, $payment_id) {
         $url = "invoices/$invoice_id/payments/$payment_id";
-        return $this->performGET( $url, false );
+        return $this->performGET($url, false);
     }
 
     /**
@@ -2234,10 +2151,9 @@
      * @param Harvest_Payment $payment Payment
      * @return Harvest_Result
      */
-    public function createInvoicePayment( $invoice_id, Harvest_Payment $payment ) 
-    {
+    public function createInvoicePayment($invoice_id, Harvest_Payment $payment) {
         $url = "invoices/$invoice_id/payments";
-        return $this->performPOST( $url, $payment->toXML() );
+        return $this->performPOST($url, $payment->toXML());
     }
 
     /**
@@ -2259,15 +2175,14 @@
      * @param int $payment_id Payment Identifier
      * @return Harvest_Result
      */
-    public function deleteInvoicePayment( $invoice_id, $payment_id ) 
-    {
-        $url = "invoices/$inovice_id/payments/$payment_id";
-        return $this->performDELETE( $url );
+    public function deleteInvoicePayment($invoice_id, $payment_id) {
+        $url = "invoices/$invoice_id/payments/$payment_id";
+        return $this->performDELETE($url);
     }
 
-    /*--------------------------------------------------------------*/
-    /*------------------- Invoice Categories API -------------------*/
-    /*--------------------------------------------------------------*/
+    /* -------------------------------------------------------------- */
+    /* ------------------- Invoice Categories API ------------------- */
+    /* -------------------------------------------------------------- */
 
     /**
      * get all invoice categories
@@ -2283,10 +2198,9 @@
      * 
      * @return Harvest_Result
      */
-    public function getInvoiceCategories() 
-    {
+    public function getInvoiceCategories() {
         $url = "invoice_item_categories";
-        return $this->performGET( $url, true );
+        return $this->performGET($url, true);
     }
 
     /**
@@ -2308,10 +2222,9 @@
      * @param Harvest_InvoiceItemCategory $invoiceCategory Invoice Category
      * @return Harvest_Result
      */
-    public function createInvoiceCategory( Harvest_InvoiceItemCategory $invoiceCategory ) 
-    {
+    public function createInvoiceCategory(Harvest_InvoiceItemCategory $invoiceCategory) {
         $url = "invoice_item_categories";
-        return $this->performPOST( $url, $invoiceCategory->toXML() );
+        return $this->performPOST($url, $invoiceCategory->toXML());
     }
 
     /**
@@ -2333,10 +2246,9 @@
      * @param Harvest_InvoiceItemCategory $invoiceCategory Invoice Category
      * @return Harvest_Result
      */
-    public function updateInvoiceCategory( Harvest_InvoiceItemCategory $invoiceCategory ) 
-    {
-        $url = "invoice_item_categories/" . $invoiceCategory->get( "id" );
-        return $this->performPUT( $url, $invoiceCategory->toXML() );
+    public function updateInvoiceCategory(Harvest_InvoiceItemCategory $invoiceCategory) {
+        $url = "invoice_item_categories/" . $invoiceCategory->get("id");
+        return $this->performPUT($url, $invoiceCategory->toXML());
     }
 
     /**
@@ -2356,64 +2268,61 @@
      * @param int $invoiceCategory_id Invoice Category Identifier
      * @return Harvest_Result
      */
-    public function deleteInvoiceCategory( int $invoiceCategory_id ) 
-    {
+    public function deleteInvoiceCategory(int $invoiceCategory_id) {
         $url = "invoice_item_categories/$invoiceCategory_id";
-        return $this->performDELETE( $url );
+        return $this->performDELETE($url);
     }
 
-    /*--------------------------------------------------------------*/
-    /*----------------- API Access & Parse Methods -----------------*/
-    /*--------------------------------------------------------------*/
+    /* -------------------------------------------------------------- */
+    /* ----------------- API Access & Parse Methods ----------------- */
+    /* -------------------------------------------------------------- */
 
-	/**
-	 * generate the update_since query params
-	 * @param mixed $update_since DateTime
-	 * @return string
-	 */
-	public function appendUpdatedSinceParam( $updated_since = null ) 
-	{
-		if( is_null( $updated_since) ) {
-			return "";
-		} else if( $updated_since instanceOf DateTime ) {
-			return '?updated_since=' . urlencode($updated_since->format("Y-m-d G:i"));
-		} else {
-			return '?updated_since=' . urlencode($updated_since);
-		}
-	}
-	
+    /**
+     * generate the update_since query params
+     * @param mixed $updated_since DateTime
+     * @return string
+     */
+    public function appendUpdatedSinceParam($updated_since = null) {
+        if (is_null($updated_since)) {
+            return "";
+        } else if ($updated_since instanceOf DateTime) {
+            return '?updated_since=' . urlencode($updated_since->format("Y-m-d G:i"));
+        } else {
+            return '?updated_since=' . urlencode($updated_since);
+        }
+    }
+
     /**
      * perform http get command
      * @param string $url url of server to process request
      * @param mixed $multi Flag to specify if multiple items are returned by request
      * @return Harvest_Result
      */
-    protected function performGET( $url, $multi = true ) 
-    {
-	    $data = null;
+    protected function performGET($url, $multi = true) {
+        $data = null;
         $code = null;
         $success = false;
-        while( ! $success ) {
-            $ch = $this->generateCURL( $url );
-            $data = curl_exec( $ch );
-            $code = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
-            if( $this->_mode == HarvestAPI::RETRY && $code == "503") {
+        while (!$success) {
+            $ch = $this->generateCURL($url);
+            $data = curl_exec($ch);
+            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if ($this->_mode == HarvestAPI::RETRY && $code == "503") {
                 $success = false;
-                sleep( $this->_headers['Retry-After'] );
+                sleep($this->_headers['Retry-After']);
             } else {
                 $success = true;
             }
         }
-        if( "2" == substr( $code, 0, 1 ) ) {
-            if( $multi === true ) {
-                $data = $this->parseItems( $data );
-            } else if( $multi == "raw" ) {
+        if ("2" == substr($code, 0, 1)) {
+            if ($multi === true) {
+                $data = $this->parseItems($data);
+            } else if ($multi == "raw") {
                 $data = data;
             } else {
-                $data = $this->parseItem( $data );
+                $data = $this->parseItem($data);
             }
         }
-        return new Harvest_Result( $code, $data, $this->_headers );
+        return new Harvest_Result($code, $data, $this->_headers);
     }
 
     /**
@@ -2421,20 +2330,19 @@
      * @param $url 
      * @return object cURL Handler
      */
-    protected function generateCURL( $url )
-    {
-	    $this->resetHeader();
+    protected function generateCURL($url) {
+        $this->resetHeader();
         $http = "http://";
-        if( $this->_ssl ) {
+        if ($this->_ssl) {
             $http = "https://";
         }
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $http . $this->_account . ".harvestapp.com/" . $url );
+        curl_setopt($ch, CURLOPT_URL, $http . $this->_account . ".harvestapp.com/" . $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('User-Agent: PHP Wrapper Library for Harvest API', 'Accept: application/xml', 'Content-Type: application/xml', 'Authorization: Basic (' . base64_encode( $this->_user . ":" . $this->_password ). ')' ) );
-        curl_setopt($ch, CURLOPT_HEADERFUNCTION, array(&$this,'parseHeader'));
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('User-Agent: PHP Wrapper Library for Harvest API', 'Accept: application/xml', 'Content-Type: application/xml', 'Authorization: Basic (' . base64_encode($this->_user . ":" . $this->_password) . ')'));
+        curl_setopt($ch, CURLOPT_HEADERFUNCTION, array(&$this, 'parseHeader'));
         return $ch;
     }
 
@@ -2444,23 +2352,22 @@
      * @param string $data data to be sent
      * @return Harvest_Result
      */
-    protected function performPUT( $url, $data ) 
-    {
+    protected function performPUT($url, $data) {
         $rData = null;
         $code = null;
         $success = false;
-        while( ! $success ) {
-            $ch = $this->generatePUTCURL( $url, $data );
-            $rData = curl_exec( $ch );
-            $code = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
-            if( $this->_mode == HarvestAPI::RETRY && $code == "503") {
+        while (!$success) {
+            $ch = $this->generatePUTCURL($url, $data);
+            $rData = curl_exec($ch);
+            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if ($this->_mode == HarvestAPI::RETRY && $code == "503") {
                 $success = false;
-                sleep( $this->_headers['Retry-After'] );
+                sleep($this->_headers['Retry-After']);
             } else {
                 $success = true;
             }
         }
-        return new Harvest_Result( $code, $rData, $this->_headers );
+        return new Harvest_Result($code, $rData, $this->_headers);
     }
 
     /**
@@ -2469,11 +2376,10 @@
      * @param $data PUT Data
      * @return object cURL Handler
      */
-    protected function generatePUTCURL( $url, $data )
-    {
-	    $ch = $this->generateCURL( $url );
+    protected function generatePUTCURL($url, $data) {
+        $ch = $this->generateCURL($url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data );
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         return $ch;
     }
 
@@ -2483,34 +2389,33 @@
      * @param string $data data to be sent
      * @return Harvest_Result
      */
-    protected function performPOST( $url, $data, $multi = "id" ) 
-    {
+    protected function performPOST($url, $data, $multi = "id") {
         $rData = null;
         $code = null;
         $success = false;
-        while( ! $success ) {
-            $ch = $this->generatePOSTCURL( $url, $data );
-            $rData = curl_exec( $ch );
-            $code = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
-            if( $this->_mode == HarvestAPI::RETRY && $code == "503") {
+        while (!$success) {
+            $ch = $this->generatePOSTCURL($url, $data);
+            $rData = curl_exec($ch);
+            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if ($this->_mode == HarvestAPI::RETRY && $code == "503") {
                 $success = false;
-                sleep( $this->_headers['Retry-After'] );
+                sleep($this->_headers['Retry-After']);
             } else {
                 $success = true;
             }
         }
-        if( "2" == substr( $code, 0, 1 ) ) {
-			if( $multi == "id" ) {
-				$rData = $this->_headers["Location"];
-			} else if( $multi === true ) {
-                $rData = $this->parseItems( $rData );
-            } else if( $multi == "raw" ) {
+        if ("2" == substr($code, 0, 1)) {
+            if ($multi == "id") {
+                $rData = $this->_headers["Location"];
+            } else if ($multi === true) {
+                $rData = $this->parseItems($rData);
+            } else if ($multi == "raw") {
                 $rData = $data;
             } else {
-                $rData = $this->parseItem( $rData );
+                $rData = $this->parseItem($rData);
             }
         }
-        return new Harvest_Result( $code, $rData, $this->_headers );
+        return new Harvest_Result($code, $rData, $this->_headers);
     }
 
     /**
@@ -2519,11 +2424,10 @@
      * @param $data Array of Post Data
      * @return object cURL Handler
      */
-    protected function generatePOSTCURL( $url, $data )
-    {
-        $ch = $this->generateCURL( $url );
+    protected function generatePOSTCURL($url, $data) {
+        $ch = $this->generateCURL($url);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data );
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         return $ch;
     }
 
@@ -2532,23 +2436,22 @@
      * @param string $url url of server to process request
      * @return Harvest_Result
      */
-    protected function performDELETE( $url) 
-    {
-		$data = null;
+    protected function performDELETE($url) {
+        $data = null;
         $code = null;
         $success = false;
-        while( ! $success ) {
-            $ch = $this->generateDELETECURL( $url );
-            $data = curl_exec( $ch );
-            $code = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
-            if( $this->_mode == HarvestAPI::RETRY && $code == "503") {
+        while (!$success) {
+            $ch = $this->generateDELETECURL($url);
+            $data = curl_exec($ch);
+            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if ($this->_mode == HarvestAPI::RETRY && $code == "503") {
                 $success = false;
-                sleep( $this->_headers['Retry-After'] );
+                sleep($this->_headers['Retry-After']);
             } else {
                 $success = true;
             }
         }
-        return new Harvest_Result( $code, $data, $this->_headers );
+        return new Harvest_Result($code, $data, $this->_headers);
     }
 
     /**
@@ -2556,9 +2459,8 @@
      * @param $url 
      * @return object cURL Handler
      */
-    protected function generateDELETECURL( $url )
-    {
-	    $ch = $this->generateCURL( $url );
+    protected function generateDELETECURL($url) {
+        $ch = $this->generateCURL($url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
         return $ch;
     }
@@ -2570,23 +2472,22 @@
      * @param array $data Associated Aray of form data
      * @return Harvest_Result
      */
-    protected function performMultiPart( $url, $data ) 
-    {
+    protected function performMultiPart($url, $data) {
         $rData = null;
         $code = null;
         $success = false;
-        while( ! $success ) {
-            $ch = $this->generateMultiPartCURL( $url, $data );
-            $rData = curl_exec( $ch );
-            $code = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
-            if( $this->_mode == HarvestAPI::RETRY && $code == "503") {
+        while (!$success) {
+            $ch = $this->generateMultiPartCURL($url, $data);
+            $rData = curl_exec($ch);
+            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if ($this->_mode == HarvestAPI::RETRY && $code == "503") {
                 $success = false;
-                sleep( $this->_headers['Retry-After'] );
+                sleep($this->_headers['Retry-After']);
             } else {
                 $success = true;
             }
         }
-        return new Harvest_Result( $code, $rData, $this->_headers );
+        return new Harvest_Result($code, $rData, $this->_headers);
     }
 
     /**
@@ -2595,12 +2496,11 @@
      * @param $data array of MultiPart Form Data
      * @return object cURL Handler
      */
-    protected function generateMultiPartCURL( $url, $data )
-    {
-        $ch = $this->generateCURL( $url );
+    protected function generateMultiPartCURL($url, $data) {
+        $ch = $this->generateCURL($url);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data );
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array( 'User-Agent: PHP Wrapper Library for Harvest API', 'Accept: application/xml', 'Content-Type: multipart/form-data', 'Authorization: Basic (' . base64_encode( $this->_user . ":" . $this->_password ). ')' ) );	
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('User-Agent: PHP Wrapper Library for Harvest API', 'Accept: application/xml', 'Content-Type: multipart/form-data', 'Authorization: Basic (' . base64_encode($this->_user . ":" . $this->_password) . ')'));
         return $ch;
     }
 
@@ -2609,34 +2509,30 @@
      * @param string $xml XML String
      * @return array
      */
-    protected function parseItems( $xml ) 
-    {
+    protected function parseItems($xml) {
         $items = array();
         $xmlDoc = new DOMDocument();
         $xmlDoc->loadXML($xml);
         $x = $xmlDoc->documentElement;
-        foreach ($x->childNodes AS $item)
-        {
-            $item = $this->parseNode( $item );
-            if( ! is_null( $item ) )
-            {
+        foreach ($x->childNodes AS $item) {
+            $item = $this->parseNode($item);
+            if (!is_null($item)) {
                 $items[$item->id()] = $item;
             }
         }
         return $items;
-	}
-    
+    }
+
     /**
      * parse XML item
      * @param string $xml XML String
      * @return mixed
      */
-    protected function parseItem( $xml ) 
-    {
+    protected function parseItem($xml) {
         $xmlDoc = new DOMDocument();
         $xmlDoc->loadXML($xml);
         $itemNode = $xmlDoc->documentElement;
-        return $this->parseNode( $itemNode );
+        return $this->parseNode($itemNode);
     }
 
     /**
@@ -2644,76 +2540,74 @@
      * @param DocumentElement $node document element
      * @return mixed
      */
-    protected function parseNode( $node ) 
-    {
+    protected function parseNode($node) {
         $item = null;
-        switch( $node->nodeName )
-        {    
+        switch ($node->nodeName) {
             case "expense-category":
                 $item = new Harvest_ExpenseCategory();
-            break;
+                break;
             case "client":
                 $item = new Harvest_Client();
-            break;
+                break;
             case "contact":
                 $item = new Harvest_Contact();
-            break;
-			case "add":
-				$children = $node->childNodes;
-				foreach( $children as $child ) {
-					if( $child->nodeName == "day_entry" ) {
-						$node = $child;
-						break;
-					}
-				}
+                break;
+            case "add":
+                $children = $node->childNodes;
+                foreach ($children as $child) {
+                    if ($child->nodeName == "day_entry") {
+                        $node = $child;
+                        break;
+                    }
+                }
             case "day_entry":
-			case "day-entry":
+            case "day-entry":
                 $item = new Harvest_DayEntry();
-            break;
+                break;
             case "expense":
                 $item = new Harvest_Expense();
-            break;
+                break;
             case "invoice":
                 $item = new Harvest_Invoice();
-            break;
+                break;
             case "invoice-item-category":
                 $item = new Harvest_InvoiceItemCategory();
-            break;
+                break;
             case "invoice-message":
                 $item = new Harvest_InvoiceMessage();
-            break;
+                break;
             case "payment":
                 $item = new Harvest_Payment();
-            break;
+                break;
             case "project":
                 $item = new Harvest_Project();
-            break;
+                break;
             case "task":
                 $item = new Harvest_Task();
-            break;
+                break;
             case "user":
                 $item = new Harvest_User();
-            break;
+                break;
             case "user-assignment":
                 $item = new Harvest_UserAssignment();
-            break;
+                break;
             case "task-assignment":
                 $item = new Harvest_TaskAssignment();
-            break;
+                break;
             case "daily":
                 $item = new Harvest_DailyActivity();
-            break;
+                break;
             case "timer":
                 $item = new Harvest_Timer();
-            break;
-			case "hash":
-				$item = new Harvest_Throttle();
-			break;
+                break;
+            case "hash":
+                $item = new Harvest_Throttle();
+                break;
             default:
-            break;
+                break;
         }
-        if( ! is_null( $item ) ) {
-            $item->parseXML( $node );
+        if (!is_null($item)) {
+            $item->parseXML($node);
         }
         return $item;
     }
@@ -2724,15 +2618,14 @@
      * @param string $header Header line text to be parsed
      * @return int
      */
-    protected function parseHeader( $ch, $header ) 
-    {
-        $pos = strpos( $header, ":" );
-        $key = substr( $header, 0, $pos );
-        $value = trim( substr( $header, $pos + 1 ) );
-        if( $key == "Location") {
-            $this->_headers[ $key ] = trim( substr( $value, strrpos($value, "/") + 1) );
+    protected function parseHeader($ch, $header) {
+        $pos = strpos($header, ":");
+        $key = substr($header, 0, $pos);
+        $value = trim(substr($header, $pos + 1));
+        if ($key == "Location") {
+            $this->_headers[$key] = trim(substr($value, strrpos($value, "/") + 1));
         } else {
-            $this->_headers[ $key ] = $value;
+            $this->_headers[$key] = $value;
         }
         return strlen($header);
     }
@@ -2741,9 +2634,8 @@
      * reset headers variable
      * @return void
      */
-    protected function resetHeader( ) 
-    {
-	    $this->_headers = array();
+    protected function resetHeader() {
+        $this->_headers = array();
     }
 
     /**
@@ -2752,14 +2644,13 @@
      *
      * <code>
      * // register the class auto loader 
-	 * spl_autoload_register( array('HarvestAPI', 'autoload') );
+     * spl_autoload_register( array('HarvestAPI', 'autoload') );
      * </code>
      * 
-     * @param string $classname Name of Class to be loaded
+     * @param string $className Name of Class to be loaded
      * @return boolean
      */
-    public static function autoload($className)
-    {
+    public static function autoload($className) {
         if (class_exists($className, false) || interface_exists($className, false)) {
             return false;
         }
@@ -2781,9 +2672,8 @@
      *
      * @return String
      */
-    public static function getPath()
-    {
-        if ( ! self::$_path) {
+    public static function getPath() {
+        if (!self::$_path) {
             self::$_path = dirname(__FILE__);
         }
         return self::$_path;

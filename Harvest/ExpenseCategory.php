@@ -1,4 +1,5 @@
 <?php
+
 /*
  * copyright (c) 2009 MDBitz - Matthew John Denton - mdbitz.com
  *
@@ -50,5 +51,5 @@ class Harvest_ExpenseCategory extends Harvest_Abstract {
      * @var string expense-category
      */
     protected $_root = "expense-category";
-	
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * copyright (c) 2009 MDBitz - Matthew John Denton - mdbitz.com
  *
@@ -50,8 +51,7 @@
  *
  * @package com.mdbitz.harvest
  */
-class Harvest_Result
-{
+class Harvest_Result {
 
     /**
      * @var string response code
@@ -75,8 +75,7 @@ class Harvest_Result
      * @param array $data array of Quote Objects
      * @param array $headers array of Header Response values
      */
-    public function __construct( $code = null, $data = null, $headers = null)
-    {
+    public function __construct($code = null, $data = null, $headers = null) {
         $this->_code = $code;
         $this->_data = $data;
         $this->_headers = $headers;
@@ -89,9 +88,8 @@ class Harvest_Result
      * @param   mixed $property
      * @return  mixed
      */
-    public function __get( $property )
-    {
-        return $this->get( $property);
+    public function __get($property) {
+        return $this->get($property);
     }
 
     /**
@@ -100,25 +98,24 @@ class Harvest_Result
      * @param mixed $property     The property to return
      * @return mixed
      */
-    public function get( $property )
-    {
-        switch( $property ){
+    public function get($property) {
+        switch ($property) {
             case 'code':
                 return $this->_code;
-            break;
+                break;
             case 'data':
                 return $this->_data;
-            break;
-			case 'headers':
-				return $this->_headers;
-			break;
+                break;
+            case 'headers':
+                return $this->_headers;
+                break;
             default:
-                if( $this->_headers != null && array_key_exists($property, $this->_headers) ) {
+                if ($this->_headers != null && array_key_exists($property, $this->_headers)) {
                     return $this->_headers[$property];
                 } else {
                     throw new Harvest_Exception(sprintf('Unknown property %s::%s', get_class($this), $property));
                 }
-            break;
+                break;
         }
     }
 
@@ -130,9 +127,8 @@ class Harvest_Result
      * @param  mixed $value
      * @return void
      */
-    public function __set( $property, $value )
-    {
-        $this->set( $property, $value );
+    public function __set($property, $value) {
+        $this->set($property, $value);
     }
 
     /**
@@ -142,21 +138,20 @@ class Harvest_Result
      * @param mixed $value value of property
      * @return void
      */
-    public function set( $property, $value )
-    {
-        switch( $property ){
+    public function set($property, $value) {
+        switch ($property) {
             case 'code':
                 $this->_code = $value;
-            break;
+                break;
             case 'data':
                 $this->_data = $value;
-            break;
+                break;
             case 'headers':
                 $this->_headers = $value;
-            break;
+                break;
             default:
                 throw new Harvest_Exception(sprintf('Unknown property %s::%s', get_class($this), $property));
-            break;
+                break;
         }
     }
 
@@ -164,9 +159,8 @@ class Harvest_Result
      * is request successfull
      * @return boolean
      */
-    public function isSuccess() 
-    {
-        if( "2" == substr( $this->_code, 0, 1 ) ) {
+    public function isSuccess() {
+        if ("2" == substr($this->_code, 0, 1)) {
             return true;
         } else {
             return false;
