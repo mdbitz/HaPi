@@ -478,7 +478,7 @@ class HarvestAPI {
      */
     public function toggleClient($client_id) {
         $url = "clients/$client_id/toggle";
-        return $this->performPUT($url, "");
+        return $this->performPOST($url, "");
     }
 
     /**
