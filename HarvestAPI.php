@@ -210,10 +210,13 @@ class HarvestAPI {
      * @param int $year Year
      * @return Harvest_Result
      */
-    public function getDailyActivity($day_of_year = null, $year = null) {
+    public function getDailyActivity($day_of_year = null, $year = null, $user_id = null) {
         $url = "daily/";
         if (!is_null($day_of_year) && !is_null($year)) {
             $url .= $day_of_year . "/" . $year;
+        }
+        if (!is_null($user_id)) {
+            $url .= '?of_user=' . $user_id;
         }
         return $this->performGET($url, false);
     }
